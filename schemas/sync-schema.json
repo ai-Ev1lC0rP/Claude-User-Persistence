@@ -1,0 +1,306 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://schemas.claude-persistence.local/sync-schema.json",
+  "title": "Synchronization Metadata",
+  "description": "Schema for tracking synchronization state and operations",
+  "type": "object",
+  "properties": {
+    "sync_record": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique sync operation identifier"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When sync operation occurred"
+        },
+        "operation": {
+          "type": "string",
+          "enum": ["push", "pull", "merge", "conflict_resolution", "initial_sync"],
+          "description": "Type of sync operation"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["success", "partial", "failed", "in_progress"],
+          "description": "Sync operation status"
+        },
+        "source": {
+          "type": "object",
+          "properties": {
+            "machine_id": {
+              "type": "string",
+              "description": "Source machine identifier"
+            },
+            "session_id": {
+              "type": "string",
+              "description": "Source session identifier"
+            },
+            "timestamp": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Source timestamp"
+            },
+            "hash": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$",
+              "description": "Source data hash"
+            }
+          },
+          "required": ["machine_id", "timestamp", "hash"]
+        },
+        "target": {
+          "type": "object",
+          "properties": {
+            "machine_id": {
+              "type": "string",
+              "description": "Target machine identifier"
+            },
+            "session_id": {
+              "type": "string",
+              "description": "Target session identifier"
+            },
+            "timestamp": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Target timestamp"
+            },
+            "hash": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$",
+              "description": "Target data hash"
+            }
+          },
+          "required": ["machine_id", "timestamp", "hash"]
+        }
+      },
+      "required": ["id", "timestamp", "operation", "status", "source"],
+      "additionalProperties": false
+    },
+    "changes": {
+      "type": "object",
+      "properties": {
+        "added": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "JSON path to added field"
+              },
+              "value": {
+                "description": "Added value"
+              },
+              "type": {
+                "type": "string",
+                "enum": ["context", "session", "skill", "tool", "preference"],
+                "description": "Type of data added"
+              }
+            },
+            "required": ["path", "value", "type"]
+          }
+        },
+        "modified": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "JSON path to modified field"
+              },
+              "old_value": {
+                "description": "Previous value"
+              },
+              "new_value": {
+                "description": "New value"
+              },
+              "type": {
+                "type": "string",
+                "enum": ["context", "session", "skill", "tool", "preference"],
+                "description": "Type of data modified"
+              }
+            },
+            "required": ["path", "old_value", "new_value", "type"]
+          }
+        },
+        "removed": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "JSON path to removed field"
+              },
+              "value": {
+                "description": "Removed value"
+              },
+              "type": {
+                "type": "string",
+                "enum": ["context", "session", "skill", "tool", "preference"],
+                "description": "Type of data removed"
+              }
+            },
+            "required": ["path", "value", "type"]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "conflicts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "JSON path where conflict occurred"
+          },
+          "conflict_type": {
+            "type": "string",
+            "enum": ["value_mismatch", "concurrent_modification", "type_mismatch", "structural_conflict"],
+            "description": "Type of conflict"
+          },
+          "local_value": {
+            "description": "Local value"
+          },
+          "remote_value": {
+            "description": "Remote value"
+          },
+          "resolution_strategy": {
+            "type": "string",
+            "enum": ["take_local", "take_remote", "merge", "manual", "skip"],
+            "description": "How conflict was or should be resolved"
+          },
+          "resolved_value": {
+            "description": "Final resolved value"
+          },
+          "resolved_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When conflict was resolved"
+          },
+          "resolved_by": {
+            "type": "string",
+            "enum": ["system", "user", "algorithm"],
+            "description": "Who or what resolved the conflict"
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Confidence level in resolution (0-1)"
+          }
+        },
+        "required": ["path", "conflict_type", "local_value", "remote_value", "resolution_strategy"]
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "properties": {
+        "duration_ms": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Sync operation duration in milliseconds"
+        },
+        "bytes_transferred": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Number of bytes transferred"
+        },
+        "items_synced": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Number of items synchronized"
+        },
+        "conflicts_resolved": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Number of conflicts resolved"
+        },
+        "errors_encountered": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Number of errors during sync"
+        },
+        "retry_count": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Number of retry attempts"
+        },
+        "bandwidth_usage": {
+          "type": "object",
+          "properties": {
+            "upload_bytes": {
+              "type": "number",
+              "minimum": 0
+            },
+            "download_bytes": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "validation": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "type": "string",
+          "description": "Schema version used for validation"
+        },
+        "validation_errors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "JSON path where validation failed"
+              },
+              "message": {
+                "type": "string",
+                "description": "Validation error message"
+              },
+              "severity": {
+                "type": "string",
+                "enum": ["error", "warning", "info"],
+                "description": "Error severity level"
+              }
+            },
+            "required": ["path", "message", "severity"]
+          }
+        },
+        "data_integrity": {
+          "type": "object",
+          "properties": {
+            "checksums_valid": {
+              "type": "boolean",
+              "description": "Whether all checksums validated successfully"
+            },
+            "structure_valid": {
+              "type": "boolean",
+              "description": "Whether data structure is valid"
+            },
+            "references_valid": {
+              "type": "boolean",
+              "description": "Whether all references are valid"
+            }
+          },
+          "required": ["checksums_valid", "structure_valid", "references_valid"]
+        }
+      },
+      "required": ["schema_version", "data_integrity"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["sync_record"],
+  "additionalProperties": false
+}

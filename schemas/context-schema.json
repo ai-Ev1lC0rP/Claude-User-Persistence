@@ -1,0 +1,398 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://schemas.claude-persistence.local/context-schema.json",
+  "title": "Claude Context Document",
+  "description": "Schema for Claude session context synchronization",
+  "type": "object",
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique identifier for this context"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "Semantic version of context schema"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when context was created"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when context was last updated"
+        },
+        "machine_id": {
+          "type": "string",
+          "description": "Identifier of the machine that last updated this context"
+        },
+        "session_id": {
+          "type": "string",
+          "description": "Claude session identifier"
+        }
+      },
+      "required": ["id", "version", "created_at", "updated_at", "machine_id"],
+      "additionalProperties": false
+    },
+    "session": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Human-readable session title"
+        },
+        "description": {
+          "type": "string",
+          "description": "Brief description of session purpose"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "paused", "completed", "archived"],
+          "description": "Current session status"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Tags for categorizing and searching sessions"
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["low", "normal", "high", "urgent"],
+          "default": "normal",
+          "description": "Session priority level"
+        },
+        "project_context": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Project name"
+            },
+            "path": {
+              "type": "string",
+              "description": "Project root directory path"
+            },
+            "repository": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "Git repository URL"
+                },
+                "branch": {
+                  "type": "string",
+                  "description": "Current git branch"
+                },
+                "commit": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{40}$",
+                  "description": "Current commit hash"
+                }
+              }
+            },
+            "environment": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": ["development", "staging", "production"],
+                  "description": "Environment type"
+                },
+                "variables": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "description": "Environment variables (non-sensitive)"
+                }
+              }
+            }
+          }
+        }
+      },
+      "required": ["title", "status"],
+      "additionalProperties": false
+    },
+    "conversation": {
+      "type": "object",
+      "properties": {
+        "summary": {
+          "type": "string",
+          "description": "High-level summary of conversation"
+        },
+        "key_decisions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "decision": {
+                "type": "string",
+                "description": "The decision made"
+              },
+              "reasoning": {
+                "type": "string",
+                "description": "Reasoning behind the decision"
+              },
+              "timestamp": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "required": ["decision", "timestamp"]
+          }
+        },
+        "current_tasks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Task identifier"
+              },
+              "description": {
+                "type": "string",
+                "description": "Task description"
+              },
+              "status": {
+                "type": "string",
+                "enum": ["pending", "in_progress", "completed", "blocked"],
+                "description": "Task status"
+              },
+              "priority": {
+                "type": "string",
+                "enum": ["low", "normal", "high"],
+                "default": "normal"
+              },
+              "assigned_to": {
+                "type": "string",
+                "description": "Who is responsible for this task"
+              },
+              "created_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "due_date": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "required": ["id", "description", "status", "created_at"]
+          }
+        },
+        "context_references": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["file", "url", "concept", "command", "error"],
+                "description": "Type of reference"
+              },
+              "reference": {
+                "type": "string",
+                "description": "The reference itself (path, URL, concept name, etc.)"
+              },
+              "description": {
+                "type": "string",
+                "description": "Human-readable description of the reference"
+              },
+              "importance": {
+                "type": "string",
+                "enum": ["low", "normal", "high", "critical"],
+                "default": "normal",
+                "description": "Importance level for context reconstruction"
+              }
+            },
+            "required": ["type", "reference"]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "tools_and_skills": {
+      "type": "object",
+      "properties": {
+        "active_skills": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Skill name"
+              },
+              "version": {
+                "type": "string",
+                "description": "Skill version"
+              },
+              "configuration": {
+                "type": "object",
+                "description": "Skill-specific configuration"
+              },
+              "last_used": {
+                "type": "string",
+                "format": "date-time",
+                "description": "When this skill was last used"
+              }
+            },
+            "required": ["name", "version"]
+          }
+        },
+        "mcp_servers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "MCP server name"
+              },
+              "endpoint": {
+                "type": "string",
+                "format": "uri",
+                "description": "Server endpoint"
+              },
+              "status": {
+                "type": "string",
+                "enum": ["connected", "disconnected", "error"],
+                "description": "Connection status"
+              },
+              "tools": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Available tools from this server"
+              },
+              "last_ping": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Last successful connection"
+              }
+            },
+            "required": ["name", "status"]
+          }
+        },
+        "preferences": {
+          "type": "object",
+          "properties": {
+            "response_style": {
+              "type": "string",
+              "enum": ["concise", "detailed", "adaptive"],
+              "default": "adaptive",
+              "description": "Preferred response style"
+            },
+            "code_style": {
+              "type": "object",
+              "properties": {
+                "language": {
+                  "type": "string",
+                  "description": "Primary programming language"
+                },
+                "framework": {
+                  "type": "string",
+                  "description": "Preferred framework"
+                },
+                "conventions": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "description": "Code style conventions"
+                }
+              }
+            },
+            "workflow_patterns": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "trigger": {
+                    "type": "string",
+                    "description": "What triggers this pattern"
+                  },
+                  "actions": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Actions to take"
+                  },
+                  "frequency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "How often this pattern is used"
+                  }
+                },
+                "required": ["trigger", "actions"]
+              }
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "synchronization": {
+      "type": "object",
+      "properties": {
+        "last_sync": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of last synchronization"
+        },
+        "sync_source": {
+          "type": "string",
+          "description": "Source system for last sync"
+        },
+        "conflicts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "field": {
+                "type": "string",
+                "description": "Field with conflict"
+              },
+              "local_value": {
+                "description": "Local value"
+              },
+              "remote_value": {
+                "description": "Remote value"
+              },
+              "resolution": {
+                "type": "string",
+                "enum": ["local", "remote", "merge", "manual"],
+                "description": "How conflict was resolved"
+              },
+              "resolved_at": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "required": ["field", "local_value", "remote_value", "resolution"]
+          }
+        },
+        "hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 hash of context content for integrity checking"
+        }
+      },
+      "required": ["last_sync", "hash"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["metadata", "session", "synchronization"],
+  "additionalProperties": false
+}
