@@ -45,6 +45,44 @@ Create a unified persistence layer that enables seamless context sharing and ses
 | **Custom Skill + Git Repo** | Version control, PR-based updates, works with worktrees skill | Not real-time, manual sync |
 | **Custom MCP Server** | Native Claude integration, tool-level access | Requires hosting, more complex |
 
+## 🤖 MCP Agents System
+
+Three specialized agents working in parallel with multi-environment support:
+
+```
+┌─────────────────────────────────────────────────────┐
+│         MCP AGENTS - WORKFLOW AUTOMATION            │
+├─────────────────────────────────────────────────────┤
+│                                                     │
+│  NOTION AGENT        FIZZY AGENT       LOKKA AGENT │
+│  ───────────        ────────────       ───────────  │
+│  Documents          Projects           Azure &     │
+│  Pages              Tasks              Microsoft   │
+│  Databases          Teams              365         │
+│  Consolidation      Collaboration      IT Admin    │
+│                                                     │
+│  7 handlers         24 handlers        30+ handlers│
+│                     Multi-Environment Support      │
+│                     Context Persistence            │
+│                                                     │
+└─────────────────────────────────────────────────────┘
+```
+
+**Quick Start**:
+```bash
+bash mcp-agents/scripts/start-all-agents.sh local
+```
+
+**Features**:
+- Local, staging, production environment support
+- Automatic context persistence and synchronization
+- Coordinated multi-agent workflows
+- Cross-machine context sharing
+
+**Documentation**: [MCP Agents README](mcp-agents/README.md)
+
+---
+
 ## 📋 What Gets Synchronized
 
 ### Context Documents
@@ -52,22 +90,48 @@ Create a unified persistence layer that enables seamless context sharing and ses
 - **User Preferences**: Claude behavior customizations, response styles, workflow preferences
 - **Tool Configurations**: MCP server settings, skill configurations, API credentials
 - **Project Mappings**: Active projects, file paths, dependency information
+- **Agent Outputs**: Results from MCP agent operations
+- **Machine State**: Per-machine configuration and status
 
 ### Skills & Tools
 - **Custom Skills**: Skill manifests, scripts, templates
 - **MCP Configurations**: Server endpoints, authentication, tool registrations
 - **Workflow Templates**: Common task patterns, automation scripts
+- **MCP Agents**: Notion, Fizzy, Lokka agents with multi-environment configs
 
 ### Cross-Machine State
 - **Active Sessions**: Current work contexts across different machines
 - **Environment Mappings**: Machine-specific paths and configurations
 - **Sync Status**: Last sync timestamps, conflict resolution
+- **Agent Context**: Persisted agent states and outputs
 
 ## 📁 Project Structure
 
 ```
 Claude-User-Persistence/
 ├── README.md                    # This file
+├── mcp-agents/                  # Multi-agent workflow automation
+│   ├── README.md               # MCP agents quick start
+│   ├── environments/           # Multi-environment configs
+│   │   ├── .env.template       # Environment configuration template
+│   │   ├── .env.local          # Local development environment
+│   │   ├── .env.staging        # Staging environment
+│   │   └── .env.production     # Production environment
+│   ├── scripts/                # Agent launch scripts
+│   │   ├── load-environment.sh     # Environment variable loader
+│   │   ├── start-all-agents.sh     # Master orchestrator
+│   │   ├── agent-notion.sh         # Notion agent launcher
+│   │   ├── agent-fizzy.sh          # Fizzy agent launcher
+│   │   └── agent-lokka.sh          # Lokka agent launcher
+│   ├── context/                # Persisted agent context
+│   │   ├── sessions/           # Active session contexts
+│   │   ├── machines/           # Per-machine state
+│   │   ├── outputs/            # Agent operation outputs
+│   │   └── syncs/              # Synchronization records
+│   ├── configs/                # Agent configurations
+│   └── docs/                   # MCP agents documentation
+│       ├── MULTI_ENVIRONMENT_SETUP.md  # Environment guide
+│       └── CONTEXT_PERSISTENCE.md      # Context persistence strategy
 ├── skills/
 │   └── context-sync/            # Main synchronization skill
 │       ├── SKILL.md            # Skill interface definition
@@ -186,33 +250,73 @@ Claude-User-Persistence/
 
 ## 🚦 Getting Started
 
+### Option 1: Start MCP Agents (Recommended)
+
+Get the multi-agent automation system running immediately:
+
+```bash
+# Clone repository
+git clone https://github.com/ai-Ev1lC0rP/Claude-User-Persistence.git
+cd Claude-User-Persistence
+
+# Start all agents with local environment
+bash mcp-agents/scripts/start-all-agents.sh local
+
+# View logs
+tail -f /tmp/mcp-agents-logs/*.log
+```
+
+Three specialized agents are now running:
+- **Notion Agent**: Document management and consolidation (7 handlers)
+- **Fizzy Agent**: Project and task management (24 handlers)
+- **Lokka Agent**: Azure & Microsoft 365 administration (30+ handlers)
+
+**See**: [MCP Agents Quick Start](mcp-agents/README.md)
+
+### Option 2: Full System Setup
+
+Setup the complete persistence layer:
+
 1. **Clone Repository**
    ```bash
    git clone <repository-url>
    cd Claude-User-Persistence
    ```
 
-2. **Setup Environment**
+2. **Setup MCP Agents Environment**
    ```bash
-   cp config/templates/local.env.template .env
-   # Edit .env with your configuration
+   # Review and configure environments
+   cat mcp-agents/environments/.env.template
+   # Update .env.local with your credentials (already configured)
    ```
 
-3. **Install Dependencies**
+3. **Start MCP Agents**
    ```bash
+   bash mcp-agents/scripts/start-all-agents.sh local
+   ```
+
+4. **Setup Context Sync Infrastructure**
+   ```bash
+   # Install Python dependencies
    pip install -r requirements.txt
-   npm install  # For TypeScript components
-   ```
 
-4. **Initialize Context Sync**
-   ```bash
+   # Install Node/TypeScript dependencies
+   npm install
+
+   # Initialize context sync
    python skills/context-sync/scripts/init_sync.py
    ```
 
-5. **Test Synchronization**
+5. **Test Full System**
    ```bash
+   # Test MCP agents
+   tail -f /tmp/mcp-agents-logs/*.log
+
+   # Test context synchronization
    python skills/context-sync/scripts/pull_context.py --dry-run
    ```
+
+**See**: [Multi-Environment Setup Guide](mcp-agents/docs/MULTI_ENVIRONMENT_SETUP.md)
 
 ## 📈 Success Metrics
 
