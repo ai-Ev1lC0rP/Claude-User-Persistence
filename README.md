@@ -47,28 +47,29 @@ Create a unified persistence layer that enables seamless context sharing and ses
 
 ## 🤖 MCP Agents System
 
-Five specialized agents working in parallel with multi-environment support:
+Seven specialized agents working in parallel with multi-environment support:
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│         MCP AGENTS - COMPREHENSIVE WORKFLOW AUTOMATION       │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│ NOTION    FIZZY      LOKKA       TODO        n8n            │
-│ ──────    ─────      ─────       ────        ───            │
-│ Docs      Projects   Azure &     Tasks       Workflows      │
-│ Pages     Tasks      Microsoft   Management  Automation     │
-│ DBs       Teams      365         Scheduling  Integration    │
-│                      IT Admin                Data Sync      │
-│                                                              │
-│ 7         24         30+         n8n MCP     n8n MCP        │
-│ handlers  handlers   handlers    Remote      Server         │
-│                                                              │
-│            Multi-Environment Support (Local/Staging/Prod)   │
-│            Context Persistence & Cross-Machine Sync         │
-│            Sequential, Parallel & Feedback Loop Workflows   │
-│                                                              │
-└──────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────┐
+│         MCP AGENTS - ENTERPRISE WORKFLOW AUTOMATION PLATFORM         │
+├──────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│ NOTION  FIZZY    LOKKA      TODO     n8n        PLAYWRIGHT  UNIFI   │
+│ ─────── ─────    ─────      ────     ───        ──────────  ─────   │
+│ Docs    Projects Azure &    Tasks    Workflows  Browser      Network│
+│ Pages   Tasks    Microsoft  Mgmt     Automation Tests        Mgmt   │
+│ DBs     Teams    365        Sched    Integration Screenshots  WiFi  │
+│         Collab   IT Admin            Data Sync  Scraping     Clients│
+│                                                                      │
+│ 7       24       30+        n8n MCP  n8n MCP    Browser      UniFi │
+│ hdlrs   hdlrs    hdlrs      Remote   Server     MCP (via     API    │
+│                                                  Smithery)           │
+│                                                                      │
+│             Multi-Environment (Local/Staging/Production)            │
+│             Context Persistence & Cross-Machine Sync                │
+│             Sequential/Parallel/Feedback Loop Workflows              │
+│                                                                      │
+└──────────────────────────────────────────────────────────────────────┘
 ```
 
 **Quick Start**:
@@ -80,8 +81,10 @@ bash mcp-agents/scripts/start-all-agents.sh local
 - **NOTION** (7 handlers) - Document management, consolidation, database building
 - **FIZZY** (24 handlers) - Project management, task tracking, team collaboration
 - **LOKKA** (30+ handlers) - Azure, Microsoft 365, IT administration
-- **TODO** (n8n MCP) - Task and workflow management via n8n remote
-- **n8n** (n8n MCP) - Complete workflow automation and system integration
+- **TODO** (n8n MCP Remote) - Task and workflow management via n8n
+- **n8n** (n8n MCP Server) - Complete workflow automation and system integration
+- **PLAYWRIGHT** (Browser MCP) - Browser automation, testing, web scraping
+- **UNIFI** (Network MCP) - Network management, WiFi, device monitoring
 
 **Features**:
 - Local, staging, production environment support
@@ -89,6 +92,8 @@ bash mcp-agents/scripts/start-all-agents.sh local
 - Coordinated multi-agent workflows
 - Cross-machine context sharing
 - n8n workflow orchestration and automation
+- Browser automation and testing
+- Network management and monitoring
 - Deep system integration and data transformation
 
 **Documentation**: [MCP Agents README](mcp-agents/README.md)

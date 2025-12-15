@@ -1,6 +1,6 @@
 # MCP Agents - Multi-Agent Workflow Automation
 
-**Five specialized agents working in parallel with multi-environment support and context persistence.**
+**Seven specialized agents working in parallel with multi-environment support and context persistence.**
 
 ---
 
@@ -9,25 +9,26 @@
 This system provides comprehensive automation across your entire workflow:
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│         MCP AGENTS - COMPREHENSIVE WORKFLOW AUTOMATION       │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│ NOTION    FIZZY      LOKKA       TODO        n8n            │
-│ ──────    ─────      ─────       ────        ───            │
-│ Docs      Projects   Azure &     Tasks       Workflows      │
-│ Pages     Tasks      Microsoft   Management  Automation     │
-│ DBs       Teams      365         Scheduling  Integration    │
-│                      IT Admin                Data Sync      │
-│                                                              │
-│ 7         24         30+         n8n MCP     n8n MCP        │
-│ handlers  handlers   handlers    Remote      Server         │
-│                                                              │
-│            Multi-Environment Support (Local/Staging/Prod)   │
-│            Context Persistence & Cross-Machine Sync         │
-│            Sequential, Parallel & Feedback Loop Workflows   │
-│                                                              │
-└──────────────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────────┐
+│         MCP AGENTS - ENTERPRISE WORKFLOW AUTOMATION PLATFORM           │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│ NOTION  FIZZY    LOKKA      TODO     n8n        PLAYWRIGHT  UNIFI     │
+│ ─────── ─────    ─────      ────     ───        ──────────  ─────     │
+│ Docs    Projects Azure &    Tasks    Workflows  Browser      Network  │
+│ Pages   Tasks    Microsoft  Mgmt     Automation Tests        Mgmt     │
+│ DBs     Teams    365        Sched    Integration Screenshots  WiFi    │
+│         Collab   IT Admin            Data Sync  Scraping     Clients  │
+│                                                                        │
+│ 7       24       30+        n8n      n8n        Browser      UniFi    │
+│ hdlrs   hdlrs    hdlrs      MCP      MCP        MCP           API     │
+│                             Remote   Server     (Smithery)            │
+│                                                                        │
+│         Multi-Environment Support (Local/Staging/Production)           │
+│         Context Persistence & Cross-Machine Sync                      │
+│         Sequential, Parallel & Feedback Loop Workflows                │
+│                                                                        │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
 ## 🚀 Quick Start
@@ -55,6 +56,8 @@ tail -f /tmp/mcp-agents-logs/fizzy.log
 tail -f /tmp/mcp-agents-logs/lokka.log
 tail -f /tmp/mcp-agents-logs/todo.log
 tail -f /tmp/mcp-agents-logs/n8n.log
+tail -f /tmp/mcp-agents-logs/playwright.log
+tail -f /tmp/mcp-agents-logs/unifi.log
 ```
 
 ---
@@ -190,6 +193,89 @@ Mode: Stdio for Claude integration
 ```
 
 **Use When**: You need complex workflow automation, multi-step processes, or deep system integration
+
+---
+
+### 🔷 PLAYWRIGHT AGENT
+**Specialization**: Browser automation and testing
+
+**Capabilities**:
+- Launch and manage browser instances (Chromium, Firefox, WebKit)
+- Navigate to URLs and interact with web pages
+- Extract content and data from websites
+- Perform automated testing and validation
+- Generate screenshots and PDF documents
+- Fill forms and simulate user interactions
+- Execute JavaScript in page context
+- Monitor network requests and performance
+- Record browser sessions
+- Handle dynamic content and waiting
+
+**Use Cases**:
+- Automated testing of web applications
+- Web scraping and data extraction
+- Screenshot and PDF generation
+- Workflow automation involving websites
+- Performance and accessibility testing
+- End-to-end testing
+- Content monitoring and change detection
+
+**Technology**:
+- @microsoft/playwright-mcp via Smithery CLI
+- Supports multiple browser engines
+- Full browser API access via MCP protocol
+
+**Authentication**:
+- MCP Key via Smithery CLI
+- No additional credentials needed
+
+**Use When**: You need browser automation, web testing, or content extraction
+
+---
+
+### 🔶 UNIFI NETWORK AGENT
+**Specialization**: Network management and monitoring
+
+**Capabilities**:
+- Manage UniFi network controller
+- List and monitor network devices (APs, switches, gateways)
+- View and manage connected clients
+- Monitor network statistics and performance
+- Configure WiFi networks and security
+- Manage user groups and permissions
+- Block/allow clients and devices
+- Configure port forwarding and VLANs
+- Monitor network health and alerts
+- Generate network reports
+- Manage device configurations
+- VPN configuration and monitoring
+
+**Network Objects**:
+- Access Points (APs)
+- Switches and routers
+- Gateways
+- Connected clients/devices
+- WiFi networks (SSIDs)
+- VLANs and network segments
+- Firewall rules and policies
+- User accounts and groups
+
+**Technology**:
+- UniFi Network Controller API
+- Local Python-based MCP server
+- Direct controller connection
+- Real-time monitoring and control
+
+**Configuration**:
+```
+Host: 10.0.0.1 (your UniFi controller)
+Port: 443 (default HTTPS)
+Username: aiadmin
+Site: default (or custom site name)
+SSL Verification: Configurable
+```
+
+**Use When**: You need to manage your network, monitor WiFi, control devices, or audit network health
 
 ---
 
@@ -403,9 +489,17 @@ bash ~/Development/Claude-User-Persistence/mcp-agents/scripts/agent-todo.sh
 # Terminal 5: n8n Agent
 source ~/Development/Claude-User-Persistence/mcp-agents/scripts/load-environment.sh local
 bash ~/Development/Claude-User-Persistence/mcp-agents/scripts/agent-n8n.sh
+
+# Terminal 6: Playwright Agent
+source ~/Development/Claude-User-Persistence/mcp-agents/scripts/load-environment.sh local
+bash ~/Development/Claude-User-Persistence/mcp-agents/scripts/agent-playwright.sh
+
+# Terminal 7: UniFi Network Agent
+source ~/Development/Claude-User-Persistence/mcp-agents/scripts/load-environment.sh local
+bash ~/Development/Claude-User-Persistence/mcp-agents/scripts/agent-unifi.sh
 ```
 
-All five agents run independently and communicate via MCP protocol.
+All seven agents run independently and communicate via MCP protocol.
 
 ---
 
@@ -523,12 +617,28 @@ ENABLE_REMOTE_SYNC=true|false
 - Error handling and retries
 - Scheduled task execution
 
+✅ **PLAYWRIGHT AGENT**
+- Browser automation (Chromium, Firefox, WebKit)
+- Web scraping and data extraction
+- Automated testing and validation
+- Screenshot and PDF generation
+- Form interaction and JavaScript execution
+- Network monitoring and performance testing
+
+✅ **UNIFI NETWORK AGENT**
+- Network device management and monitoring
+- WiFi configuration and security
+- Client management and blocking
+- Network statistics and analytics
+- VLAN and firewall configuration
+- Real-time network health monitoring
+
 ✅ **COORDINATION**
 - Sequential workflows
 - Parallel execution
 - Feedback loops
 - Output sharing
-- n8n integration
+- n8n, browser, and network integration
 
 ✅ **MULTI-ENVIRONMENT**
 - Local, staging, production support
@@ -596,6 +706,8 @@ ENABLE_REMOTE_SYNC=true|false
 | `bash scripts/agent-lokka.sh` | Start Lokka agent |
 | `bash scripts/agent-todo.sh` | Start toDo agent |
 | `bash scripts/agent-n8n.sh` | Start n8n MCP agent |
+| `bash scripts/agent-playwright.sh` | Start Playwright agent |
+| `bash scripts/agent-unifi.sh` | Start UniFi network agent |
 | `pkill -f agent-` | Stop all agents |
 | `tail -f /tmp/mcp-agents-logs/*.log` | View all logs |
 | `ps aux \| grep agent-` | Check running agents |
@@ -604,9 +716,14 @@ ENABLE_REMOTE_SYNC=true|false
 
 ## 🎉 You're Ready!
 
-Five specialized agents with multi-environment support, context persistence, and full coordination capabilities.
+Seven specialized agents with multi-environment support, context persistence, and full coordination capabilities.
 
-**61+ total handlers** across all agents providing comprehensive workflow automation.
+**Enterprise-Grade Automation Platform**:
+- **61+ handlers** across core agents (Notion, Fizzy, Lokka, n8n)
+- **Browser automation** via Playwright (testing, scraping, screenshots)
+- **Network management** via UniFi (WiFi, devices, monitoring)
+- **Task automation** via n8n (workflows, scheduling, integration)
+- **Complete system integration** capabilities
 
 **Start your automation platform:**
 ```bash
@@ -616,5 +733,5 @@ bash ~/Development/Claude-User-Persistence/mcp-agents/scripts/start-all-agents.s
 ---
 
 **Last Updated**: December 14, 2025
-**Version**: 2.0.0 (Added n8n agents)
-**Status**: ✅ Ready for Production
+**Version**: 3.0.0 (Complete agent suite with browser & network management)
+**Status**: ✅ Enterprise Ready
