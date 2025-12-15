@@ -1,0 +1,8 @@
+# Environment-specific configurations
+# These files contain credentials and should never be committed
+.env.local
+.env.staging
+.env.production
+
+# Allow template for reference
+!.env.template
