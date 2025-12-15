@@ -57,6 +57,8 @@ export MCP_REPO_ROOT=$REPO_ROOT
 NOTION_PID=$(launch_agent "NOTION" "$REPO_ROOT/mcp-agents/scripts/agent-notion.sh")
 FIZZY_PID=$(launch_agent "FIZZY" "$REPO_ROOT/mcp-agents/scripts/agent-fizzy.sh")
 LOKKA_PID=$(launch_agent "LOKKA" "$REPO_ROOT/mcp-agents/scripts/agent-lokka.sh")
+TODO_PID=$(launch_agent "TODO" "$REPO_ROOT/mcp-agents/scripts/agent-todo.sh")
+N8N_PID=$(launch_agent "N8N" "$REPO_ROOT/mcp-agents/scripts/agent-n8n.sh")
 
 echo "════════════════════════════════════════════════════════════════════════════"
 echo ""
@@ -69,23 +71,27 @@ echo "Agent Process IDs:"
 echo "  NOTION: $NOTION_PID"
 echo "  FIZZY:  $FIZZY_PID"
 echo "  LOKKA:  $LOKKA_PID"
+echo "  TODO:   $TODO_PID"
+echo "  N8N:    $N8N_PID"
 echo ""
 echo "View logs:"
 echo "  tail -f $LOG_DIR/notion.log"
 echo "  tail -f $LOG_DIR/fizzy.log"
 echo "  tail -f $LOG_DIR/lokka.log"
+echo "  tail -f $LOG_DIR/todo.log"
+echo "  tail -f $LOG_DIR/n8n.log"
 echo ""
 echo "View all logs:"
 echo "  tail -f $LOG_DIR/*.log"
 echo ""
 echo "Stop all agents:"
-echo "  kill $NOTION_PID $FIZZY_PID $LOKKA_PID"
+echo "  kill $NOTION_PID $FIZZY_PID $LOKKA_PID $TODO_PID $N8N_PID"
 echo ""
 echo "════════════════════════════════════════════════════════════════════════════"
 echo ""
 
 # Keep script alive and handle signals
-trap "echo 'Shutting down agents...'; kill $NOTION_PID $FIZZY_PID $LOKKA_PID 2>/dev/null; exit" SIGINT SIGTERM
+trap "echo 'Shutting down agents...'; kill $NOTION_PID $FIZZY_PID $LOKKA_PID $TODO_PID $N8N_PID 2>/dev/null; exit" SIGINT SIGTERM
 
 # Wait for agents
 wait

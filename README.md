@@ -47,25 +47,28 @@ Create a unified persistence layer that enables seamless context sharing and ses
 
 ## 🤖 MCP Agents System
 
-Three specialized agents working in parallel with multi-environment support:
+Five specialized agents working in parallel with multi-environment support:
 
 ```
-┌─────────────────────────────────────────────────────┐
-│         MCP AGENTS - WORKFLOW AUTOMATION            │
-├─────────────────────────────────────────────────────┤
-│                                                     │
-│  NOTION AGENT        FIZZY AGENT       LOKKA AGENT │
-│  ───────────        ────────────       ───────────  │
-│  Documents          Projects           Azure &     │
-│  Pages              Tasks              Microsoft   │
-│  Databases          Teams              365         │
-│  Consolidation      Collaboration      IT Admin    │
-│                                                     │
-│  7 handlers         24 handlers        30+ handlers│
-│                     Multi-Environment Support      │
-│                     Context Persistence            │
-│                                                     │
-└─────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│         MCP AGENTS - COMPREHENSIVE WORKFLOW AUTOMATION       │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│ NOTION    FIZZY      LOKKA       TODO        n8n            │
+│ ──────    ─────      ─────       ────        ───            │
+│ Docs      Projects   Azure &     Tasks       Workflows      │
+│ Pages     Tasks      Microsoft   Management  Automation     │
+│ DBs       Teams      365         Scheduling  Integration    │
+│                      IT Admin                Data Sync      │
+│                                                              │
+│ 7         24         30+         n8n MCP     n8n MCP        │
+│ handlers  handlers   handlers    Remote      Server         │
+│                                                              │
+│            Multi-Environment Support (Local/Staging/Prod)   │
+│            Context Persistence & Cross-Machine Sync         │
+│            Sequential, Parallel & Feedback Loop Workflows   │
+│                                                              │
+└──────────────────────────────────────────────────────────────┘
 ```
 
 **Quick Start**:
@@ -73,11 +76,20 @@ Three specialized agents working in parallel with multi-environment support:
 bash mcp-agents/scripts/start-all-agents.sh local
 ```
 
+**Agents**:
+- **NOTION** (7 handlers) - Document management, consolidation, database building
+- **FIZZY** (24 handlers) - Project management, task tracking, team collaboration
+- **LOKKA** (30+ handlers) - Azure, Microsoft 365, IT administration
+- **TODO** (n8n MCP) - Task and workflow management via n8n remote
+- **n8n** (n8n MCP) - Complete workflow automation and system integration
+
 **Features**:
 - Local, staging, production environment support
 - Automatic context persistence and synchronization
 - Coordinated multi-agent workflows
 - Cross-machine context sharing
+- n8n workflow orchestration and automation
+- Deep system integration and data transformation
 
 **Documentation**: [MCP Agents README](mcp-agents/README.md)
 

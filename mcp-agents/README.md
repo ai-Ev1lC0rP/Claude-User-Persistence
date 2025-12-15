@@ -1,30 +1,33 @@
 # MCP Agents - Multi-Agent Workflow Automation
 
-**Three specialized agents working in parallel with multi-environment support and context persistence.**
+**Five specialized agents working in parallel with multi-environment support and context persistence.**
 
 ---
 
 ## 🎯 Overview
 
-This system provides intelligent automation across your entire workflow:
+This system provides comprehensive automation across your entire workflow:
 
 ```
-┌─────────────────────────────────────────────────────┐
-│         MCP AGENTS - WORKFLOW AUTOMATION            │
-├─────────────────────────────────────────────────────┤
-│                                                     │
-│  NOTION AGENT        FIZZY AGENT       LOKKA AGENT │
-│  ───────────        ────────────       ───────────  │
-│  Documents          Projects           Azure &     │
-│  Pages              Tasks              Microsoft   │
-│  Databases          Teams              365         │
-│  Consolidation      Collaboration      IT Admin    │
-│                                                     │
-│  7 handlers         24 handlers        30+ handlers│
-│                     Multi-Environment Support      │
-│                     Context Persistence            │
-│                                                     │
-└─────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│         MCP AGENTS - COMPREHENSIVE WORKFLOW AUTOMATION       │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│ NOTION    FIZZY      LOKKA       TODO        n8n            │
+│ ──────    ─────      ─────       ────        ───            │
+│ Docs      Projects   Azure &     Tasks       Workflows      │
+│ Pages     Tasks      Microsoft   Management  Automation     │
+│ DBs       Teams      365         Scheduling  Integration    │
+│                      IT Admin                Data Sync      │
+│                                                              │
+│ 7         24         30+         n8n MCP     n8n MCP        │
+│ handlers  handlers   handlers    Remote      Server         │
+│                                                              │
+│            Multi-Environment Support (Local/Staging/Prod)   │
+│            Context Persistence & Cross-Machine Sync         │
+│            Sequential, Parallel & Feedback Loop Workflows   │
+│                                                              │
+└──────────────────────────────────────────────────────────────┘
 ```
 
 ## 🚀 Quick Start
@@ -50,6 +53,8 @@ tail -f /tmp/mcp-agents-logs/*.log
 tail -f /tmp/mcp-agents-logs/notion.log
 tail -f /tmp/mcp-agents-logs/fizzy.log
 tail -f /tmp/mcp-agents-logs/lokka.log
+tail -f /tmp/mcp-agents-logs/todo.log
+tail -f /tmp/mcp-agents-logs/n8n.log
 ```
 
 ---
@@ -124,6 +129,67 @@ tail -f /tmp/mcp-agents-logs/lokka.log
 - Compliance auditing
 
 **Use When**: You need IT administration, security management, or cloud operations
+
+---
+
+### 🟡 TODO AGENT
+**Specialization**: Task and workflow management via n8n
+
+**Capabilities**:
+- Create and manage tasks in n8n
+- Execute workflows via remote MCP
+- Schedule automated tasks
+- Manage workflow states
+- Track task progress
+- Integration with webhook endpoints
+
+**Technology**:
+- n8n MCP remote endpoint
+- Bearer token authentication
+- Webhook-based communication
+
+**Endpoint**:
+```
+https://n8n.tsargent.work/mcp/32d71f33-6dfd-4ac4-9987-51b14d00f81e
+```
+
+**Use When**: You need to create tasks, manage workflows, or schedule automation through n8n
+
+---
+
+### 🟣 n8n MCP AGENT
+**Specialization**: Complete workflow automation and system integration
+
+**Capabilities**:
+- List and execute n8n workflows
+- Manage workflow variables
+- Monitor execution status
+- Handle errors and retries
+- Connect multiple data sources
+- Transform and process data
+- Schedule automated tasks
+- Deep system integration
+
+**Available Methods**:
+- Workflow operations (list, get, execute, update)
+- Execution monitoring (list, get, retry)
+- Variable management (get, set, delete)
+- Integration operations
+- Data transformation tools
+
+**Technology**:
+- n8n-mcp npm package
+- Direct API integration
+- Stdio transport for Claude
+
+**Configuration**:
+```
+API URL: https://tsargent.casonclark.com/api/v1
+Authentication: API Key (JWT bearer token)
+Mode: Stdio for Claude integration
+```
+
+**Use When**: You need complex workflow automation, multi-step processes, or deep system integration
 
 ---
 
@@ -329,9 +395,17 @@ bash ~/Development/Claude-User-Persistence/mcp-agents/scripts/agent-fizzy.sh
 # Terminal 3: Lokka Agent
 source ~/Development/Claude-User-Persistence/mcp-agents/scripts/load-environment.sh local
 bash ~/Development/Claude-User-Persistence/mcp-agents/scripts/agent-lokka.sh
+
+# Terminal 4: Todo Agent
+source ~/Development/Claude-User-Persistence/mcp-agents/scripts/load-environment.sh local
+bash ~/Development/Claude-User-Persistence/mcp-agents/scripts/agent-todo.sh
+
+# Terminal 5: n8n Agent
+source ~/Development/Claude-User-Persistence/mcp-agents/scripts/load-environment.sh local
+bash ~/Development/Claude-User-Persistence/mcp-agents/scripts/agent-n8n.sh
 ```
 
-Each agent runs independently and communicates via MCP protocol.
+All five agents run independently and communicate via MCP protocol.
 
 ---
 
@@ -434,11 +508,27 @@ ENABLE_REMOTE_SYNC=true|false
 - IT operations
 - User and group management
 
+✅ **TODO AGENT (n8n MCP Remote)**
+- Task creation and management
+- Workflow execution via n8n
+- Task scheduling and automation
+- Webhook-based integration
+- Real-time task tracking
+
+✅ **n8n MCP AGENT**
+- Complete workflow automation
+- Multi-step process orchestration
+- Data transformation and mapping
+- Deep system integration
+- Error handling and retries
+- Scheduled task execution
+
 ✅ **COORDINATION**
 - Sequential workflows
 - Parallel execution
 - Feedback loops
 - Output sharing
+- n8n integration
 
 ✅ **MULTI-ENVIRONMENT**
 - Local, staging, production support
@@ -504,6 +594,8 @@ ENABLE_REMOTE_SYNC=true|false
 | `bash scripts/agent-notion.sh` | Start Notion agent |
 | `bash scripts/agent-fizzy.sh` | Start Fizzy agent |
 | `bash scripts/agent-lokka.sh` | Start Lokka agent |
+| `bash scripts/agent-todo.sh` | Start toDo agent |
+| `bash scripts/agent-n8n.sh` | Start n8n MCP agent |
 | `pkill -f agent-` | Stop all agents |
 | `tail -f /tmp/mcp-agents-logs/*.log` | View all logs |
 | `ps aux \| grep agent-` | Check running agents |
@@ -512,7 +604,9 @@ ENABLE_REMOTE_SYNC=true|false
 
 ## 🎉 You're Ready!
 
-Three specialized agents with multi-environment support, context persistence, and full coordination capabilities.
+Five specialized agents with multi-environment support, context persistence, and full coordination capabilities.
+
+**61+ total handlers** across all agents providing comprehensive workflow automation.
 
 **Start your automation platform:**
 ```bash
@@ -522,5 +616,5 @@ bash ~/Development/Claude-User-Persistence/mcp-agents/scripts/start-all-agents.s
 ---
 
 **Last Updated**: December 14, 2025
-**Version**: 1.0.0
+**Version**: 2.0.0 (Added n8n agents)
 **Status**: ✅ Ready for Production
